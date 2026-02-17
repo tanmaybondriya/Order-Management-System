@@ -10,3 +10,8 @@ export const createProductService = async ({ name, price, stock }) => {
 
   return product;
 };
+
+export const getProductService = async () => {
+  const product = await Product.find();
+  return product;
+};

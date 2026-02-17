@@ -1,4 +1,8 @@
-import { registerUser, loginUser } from "../services/auth.service.js";
+import {
+  registerUser,
+  loginUser,
+  currentUser,
+} from "../services/auth.service.js";
 // import ApiError from "./utils/ApiError.js";
 import ApiResponse from "../utils/ApiResponse.js";
 
@@ -21,3 +25,21 @@ export const login = async (req, res, next) => {
     next(error);
   }
 };
+
+export const getCurrentUser = async (req, res, next) => {
+  try {
+    const userId = req.user.id;
+    const user = await currentUser(userId);
+    res.status(200).json(new ApiResponse(200, "Logged In User", user));
+  } catch (error) {
+    next(error);
+  }
+};
+
+// export const getCurrentUser = async (req, res) => {
+//   res.status(200).json({
+//     success: true,
+//     statusCode: 200,
+//     data: req.user,
+//   });
+// };

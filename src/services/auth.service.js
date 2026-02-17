@@ -31,3 +31,11 @@ export const loginUser = async ({ email, password }) => {
   const token = generateToken(user._id);
   return token;
 };
+
+export const currentUser = async (UserId) => {
+  const user = await User.findById(UserId).select("-password");
+  if (!user) {
+    throw new ApiError(401, "User not found");
+  }
+  return user;
+};

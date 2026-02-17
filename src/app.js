@@ -1,5 +1,7 @@
 import express from "express";
 import dotenv from "dotenv";
+import cors from "cors"; // Import cors
+import corsOptions from "./config/corsOptions.js"; // Import your custom config
 import { connectDB } from "./config/db.js";
 import errorHandler from "./middlewares/error.middleware.js";
 import authRoutes from "./routes/auth.routes.js";
@@ -9,7 +11,7 @@ import orderRoutes from "./routes/order.routes.js";
 dotenv.config();
 
 const app = express(); //intitialize express app
-
+app.use(cors(corsOptions));
 app.use(express.json()); //middleware to parse JSON request bodies
 
 app.get("/health", (req, res) => {
@@ -22,6 +24,7 @@ app.get("/health", (req, res) => {
 app.use("/api/auth", authRoutes);
 app.use("/api/orders", orderRoutes);
 app.use("/api/products", productRoutes);
+
 app.use(errorHandler);
 
 const PORT = process.env.PORT || 5000;
