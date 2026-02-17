@@ -83,9 +83,6 @@ export const getOrderHistory = async ({ userId, status }) => {
 };
 
 export const cancelledOrder = async ({ userId, orderId }) => {
-  console.log("userId recieved", userId);
-
-  console.log("orderId recieved", orderId);
   const order = await Order.findById(orderId);
 
   if (!order) {
@@ -111,4 +108,15 @@ export const cancelledOrder = async ({ userId, orderId }) => {
   await order.save();
 
   return order;
+};
+
+export const deleteOrder = async ({ userId }) => {
+  const result = await Order.deleteMany({
+    status: "CANCELLED",
+    user: userId,
+  });
+  if (result.deletedCount === 0) {
+    throw new ApiError(400, "No cancelled items available");
+  }
+  return result;
 };

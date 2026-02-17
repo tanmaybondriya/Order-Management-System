@@ -2,8 +2,10 @@ import {
   createOrderWithTransaction,
   getOrderHistory,
   cancelledOrder,
+  deleteOrder,
 } from "../services/order.service.js";
 import ApiResponse from "../utils/ApiResponse.js";
+
 export const createOrderController = async (req, res, next) => {
   try {
     const order = await createOrderWithTransaction({
@@ -47,6 +49,22 @@ export const cancelledOrderController = async (req, res, next) => {
     res
       .status(201)
       .json(new ApiResponse(201, "Order cancelled succesfully", order));
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const deletedOrderController = async (req, res, next) => {
+  try {
+    const order = await deleteOrder({
+      userId: req.user.id,
+    });
+
+    res
+      .status(201)
+      .json(
+        new ApiResponse(201, "Cancelled Orders deleted succesfully", order),
+      );
   } catch (error) {
     next(error);
   }

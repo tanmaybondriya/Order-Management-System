@@ -2,6 +2,7 @@ import {
   createOrderController,
   orderHistortyController,
   cancelledOrderController,
+  deletedOrderController,
 } from "../controllers/order.controller.js";
 import authMiddleware from "../middlewares/auth.middleware.js";
 
@@ -16,4 +17,5 @@ router.patch(
   authMiddleware,
   cancelledOrderController,
 );
+router.delete("/delete-order", authMiddleware, deletedOrderController);
 export default router;
