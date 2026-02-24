@@ -18,10 +18,24 @@ export const createProduct = async (req, res, next) => {
 
 export const getAllProduct = async (req, res, next) => {
   try {
-    const product = await getProductService(req.body);
+    const {
+      page = 1,
+      limit = 5,
+      sort = "createdAt",
+      order = "desc",
+      ...filters
+    } = req.query;
+
+    const products = await getProductService({
+      page: Number(page) || 1,
+      limit: Number(limit) || 5,
+      sort,
+      order,
+      filters,
+    });
     res
       .status(200)
-      .json(new ApiResponse(200, "Products Fetched succesfully", product));
+      .json(new ApiResponse(200, "Products Fetched succesfully", products));
   } catch (error) {
     next(error);
   }

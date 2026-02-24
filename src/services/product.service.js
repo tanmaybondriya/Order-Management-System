@@ -11,7 +11,24 @@ export const createProductService = async ({ name, price, stock }) => {
   return product;
 };
 
-export const getProductService = async () => {
-  const product = await Product.find();
-  return product;
+export const getProductService = async ({
+  page,
+  limit,
+  sort,
+  order,
+  filters,
+}) => {
+  const skip = (page - 1) * limit;
+  const sortOrder = order === "asc" ? 1 : -1;
+
+  const [products, total] = await Promise.all([
+    Product.find(filters)
+      .sort({ [sort]: sortOrder })
+      .skip(skip)
+      .limit(limit),
+    Product.countDocuments(filters),
+  ]);
+
+  const totalPages = Math.ceil(total / limit);
+  return { products, pagination: { total, page, limit, totalPages } };
 };
