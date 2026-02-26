@@ -28,7 +28,7 @@ export const loginUser = async ({ email, password }) => {
     throw new ApiError(401, "User already exists or password is incorrect");
   }
 
-  const token = generateToken(user._id);
+  const token = generateToken(user);
   return token;
 };
 

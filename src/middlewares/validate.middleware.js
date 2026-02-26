@@ -9,7 +9,5 @@ export const validate = (schema) => (req, res, next) => {
     return next(new ApiError(400, errMessage));
   }
   req.body = result.data;
-  console.log("PID:", process.pid);
-  debugger;
   next();
 };

@@ -16,6 +16,11 @@ const userSchema = new mongoose.Schema({
     required: true,
     select: false, //prevents password leakage by default
   },
+  role: {
+    type: String,
+    enum: ["user", "admin"],
+    default: "user",
+  },
 });
 
 const User = mongoose.model("User", userSchema);
