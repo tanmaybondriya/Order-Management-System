@@ -4,8 +4,18 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "start": "node src/app.js",
-    "dev": "nodemon src/app.js"
+    "start": "node src/server.js",
+    "dev": "nodemon src/server.js",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage"
+  },
+  "vitest": {
+    "envirornment": "node",
+    "testTimeout": 10000,
+    "env": {
+      "NODE_ENV": "test"
+    }
   },
   "author": "",
   "keywords": [],
@@ -23,6 +33,8 @@
     "zod": "^4.3.6"
   },
   "devDependencies": {
-    "nodemon": "^3.1.11"
+    "nodemon": "^3.1.11",
+    "supertest": "^7.2.2",
+    "vitest": "^4.0.18"
   }
 }
