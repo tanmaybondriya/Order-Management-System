@@ -9,7 +9,6 @@ import orderRoutes from "./routes/order.routes.js";
 const app = express(); //intitialize express app
 
 app.use(cors(corsOptions));
-app.options("*", cors(corsOptions));
 app.use(express.json()); //middleware to parse JSON request bodies
 
 app.get("/health", (req, res) => {
