@@ -4,9 +4,13 @@
     {
       "type": "node",
       "request": "launch",
-      "name": "Debug with Nodemon",
-      "runtimeExecutable": "nodemon",
-      "program": "${workspaceFolder}/src/app.js",
+      "name": "Debug with Nodemon (local)",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": [
+        "nodemon",
+        "--inspect=9229",
+        "${workspaceFolder}/src/server.js"
+      ],
       "restart": true,
       "console": "integratedTerminal",
       "skipFiles": ["<node_internals>/**"]

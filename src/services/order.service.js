@@ -3,30 +3,6 @@ import Order from "../models/order.model.js";
 import ApiError from "../utils/ApiError.js";
 import mongoose from "mongoose";
 
-// export const createOrder = async ({ userId, productId, quantity }) => {
-//   if (quantity <= 0) {
-//     throw new ApiError(400, "Quantity must be greater than zero");
-//   }
-
-//   const product = await Product.findOneAndUpdate(
-//     { _id: productId, stock: { $gte: quantity } },
-//     { $inc: { stock: -quantity } },
-//     { new: true },
-//   );
-
-//   if (!product) {
-//     throw new ApiError(400, "The stock is less than the quantity");
-//   }
-
-//   const order = await Order.create({
-//     user: userId,
-//     product: productId,
-//     quantity,
-//   });
-
-//   return order;
-// };
-
 export const createOrderWithTransaction = async ({
   userId,
   productId,
