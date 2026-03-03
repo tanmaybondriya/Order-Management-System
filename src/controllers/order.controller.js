@@ -3,8 +3,10 @@ import {
   getOrderHistory,
   cancelledOrder,
   deleteOrder,
+  updateOrderService,
 } from "../services/order.service.js";
 import ApiResponse from "../utils/ApiResponse.js";
+import { io } from "../server.js";
 
 export const createOrderController = async (req, res, next) => {
   try {
@@ -65,6 +67,24 @@ export const deletedOrderController = async (req, res, next) => {
       .json(
         new ApiResponse(201, "Cancelled Orders deleted succesfully", order),
       );
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const updateOrderStatusController = async (req, res, next) => {
+  try {
+    const { orderId } = req.params; // from url
+    const { status } = req.body; // new status from new body
+    const order = await updateOrderService({ orderId, status });
+
+    //emit realtime event to the specific user's room
+    io.to(order.user.toString()).emit("orderStatusUpdated", {
+      orderId: order._id,
+      status: order.status,
+    });
+
+    res.status(200).json(new ApiResponse(200, "Order status updated", order));
   } catch (error) {
     next(error);
   }

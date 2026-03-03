@@ -2,6 +2,7 @@ import Product from "../models/product.model.js";
 import Order from "../models/order.model.js";
 import ApiError from "../utils/ApiError.js";
 import mongoose from "mongoose";
+import { io } from "../server.js";
 
 export const createOrderWithTransaction = async ({
   userId,
@@ -54,6 +55,7 @@ export const getOrderHistory = async ({ userId, status }) => {
   }
 
   return Order.find(query)
+    .populate("user", "name email")
     .populate("product", "name price")
     .sort({ createdAt: -1 });
 };
@@ -95,4 +97,21 @@ export const deleteOrder = async ({ userId }) => {
     throw new ApiError(400, "No cancelled items available");
   }
   return result;
+};
+
+export const updateOrderService = async ({ orderId, status }) => {
+  const validStatuses = ["PLACED", "DELIVERED", "CANCELLED"];
+
+  if (!validStatuses.includes(status)) {
+    throw new ApiError(400, "Invalid status value");
+  }
+
+  const order = await Order.findById(orderId);
+  if (!order) {
+    throw new ApiError(404, "Order not found");
+  }
+
+  order.status = status;
+  await order.save();
+  return order;
 };

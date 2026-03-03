@@ -24,7 +24,7 @@ export const verifyPayment = async (req, res, next) => {
     const userId = req.user.id;
 
     const order = await verifyPaymentService(orderId, transactionId, userId);
-    res.status(200).json(200, "Payment successful", order);
+    res.status(200).json(new ApiResponse(200, "Payment successful", order));
   } catch (error) {
     next(error);
   }
