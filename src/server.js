@@ -30,9 +30,10 @@ io.on("connection", (socket) => {
     console.log(`Client disconnected: ${socket.id}`);
   });
 });
-
-connectDB().then(() => {
-  httpServer.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
+if (process.env.NODE_ENV !== "test") {
+  connectDB().then(() => {
+    httpServer.listen(PORT, () => {
+      console.log(`Server running on port ${PORT}`);
+    });
   });
-});
+}

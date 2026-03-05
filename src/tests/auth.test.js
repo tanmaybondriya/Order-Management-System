@@ -1,16 +1,6 @@
 import { describe, it, expect, beforeAll, afterAll } from "vitest";
 import supertest from "supertest";
 import app from "../app.js";
-import mongoose from "mongoose";
-import { connectDB } from "../config/db.js";
-
-beforeAll(async () => {
-  await connectDB();
-});
-
-afterAll(async () => {
-  await mongoose.connection.close();
-});
 
 const request = supertest(app);
 

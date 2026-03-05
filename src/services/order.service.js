@@ -2,7 +2,6 @@ import Product from "../models/product.model.js";
 import Order from "../models/order.model.js";
 import ApiError from "../utils/ApiError.js";
 import mongoose from "mongoose";
-import { io } from "../server.js";
 
 export const createOrderWithTransaction = async ({
   userId,
